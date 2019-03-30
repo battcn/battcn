@@ -1,0 +1,29 @@
+server:
+  port: 8010
+spring:
+  application:
+    name: battcn-auth
+  redis:
+    host: 106.14.253.83
+    database: 2
+    password: redis
+    port: 6005
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.1.13:8848
+#        ext-config:
+#          - refresh: true
+#            data-id: app.properties
+#            group: multi-data-ids
+      discovery:
+        server-addr: 192.168.1.13:8848
+  datasource:
+    url: jdbc:mysql://192.168.1.13:3306/cloud?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    username: root
+    password: NewPass4!
+    driver-class-name: com.mysql.jdbc.Driver
+logging:
+  level:
+    com.battcn: debug
+    org.springframework.security: DEBUG

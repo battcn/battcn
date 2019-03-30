@@ -1,0 +1,47 @@
+
+spring:
+  application:
+    name: battcn-order
+  cloud:
+    nacos:
+      config:
+        server-addr: 192.168.1.13:8848
+      discovery:
+        server-addr: 192.168.1.13:8848
+  main:
+    allow-bean-definition-overriding: true
+server:
+  port: 8020
+logging:
+  level:
+    com.battcn: debug
+    org.springframework.security: TRACE
+security:
+  oauth2:
+    client:
+      client-id: client_2
+      client-secret: 123456
+      scope: server
+      grant-type: client_credentials,password
+      access-token-uri: http://battcn-auth/oauth/token
+    resource:
+      loadBalanced: true
+      token-info-uri: http://battcn-auth/oauth/check_token
+      user-info-uri: http://battcn-auth/users/info
+feign:
+  hystrix:
+    enabled: true
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 10000
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true

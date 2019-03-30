@@ -1,0 +1,3 @@
+#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+#  com.ksudi.framework.security.feign.KsudiFeginConfiguration,\
+#  com.ksudi.framework.security.service.KsudiSomsDetailsServiceImpl
