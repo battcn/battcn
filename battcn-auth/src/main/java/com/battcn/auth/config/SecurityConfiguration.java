@@ -1,9 +1,11 @@
 package com.battcn.auth.config;
 
+import com.battcn.auth.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -24,16 +26,10 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-
     @Bean
     @Override
     protected UserDetailsService userDetailsService() {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        String finalPassword = "{bcrypt}" + bCryptPasswordEncoder.encode("123456");
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.withUsername("user_1").password(finalPassword).authorities("USER").build());
-        manager.createUser(User.withUsername("user_2").password(finalPassword).authorities("USER").build());
-        return manager;
+        return new UserDetailsServiceImpl();
     }
 
     @Bean
@@ -51,6 +47,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        //替换成自己验证规则
+        //auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
+        //auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
     }
 
     @Bean

@@ -5,9 +5,9 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: 192.168.1.13:8848
+        server-addr: localhost:8848
       discovery:
-        server-addr: 192.168.1.13:8848
+        server-addr: localhost:8848
   main:
     allow-bean-definition-overriding: true
 server:
