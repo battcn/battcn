@@ -1,4 +1,4 @@
-package com.battcn.auth.config;
+package com.battcn.order.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;

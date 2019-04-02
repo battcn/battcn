@@ -17,15 +17,17 @@ public class AuthInfo extends User implements java.io.Serializable {
     private static final long serialVersionUID = 666236878598344789L;
 
     private Long userId;
-    private Long deptId;
+    private String mobile;
     private String openId;
     private Long tenantId;
+    private String nickName;
 
-    public AuthInfo(Long userId, Long deptId, String openId, Long tenantId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+    public AuthInfo(Long userId, String nickName, String openId, String mobile, Long tenantId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.userId = userId;
-        this.deptId = deptId;
+        this.nickName = nickName;
         this.openId = openId;
+        this.mobile = mobile;
         this.tenantId = tenantId;
     }
 }

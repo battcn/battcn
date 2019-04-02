@@ -2,7 +2,6 @@ package com.battcn.auth.config;
 
 import com.battcn.auth.service.ClientDetailsServiceImpl;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +16,9 @@ import org.springframework.security.oauth2.provider.client.JdbcClientDetailsServ
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 import javax.sql.DataSource;
+
+import static com.battcn.auth.config.SecurityConstants.DEFAULT_FIND_STATEMENT;
+import static com.battcn.auth.config.SecurityConstants.DEFAULT_SELECT_STATEMENT;
 
 /**
  * 安全认证管理器
@@ -35,34 +37,15 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
 
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         JdbcClientDetailsService clientDetailsService = new ClientDetailsServiceImpl(dataSource);
-        clientDetailsService.setSelectClientDetailsSql(SecurityConstants.DEFAULT_SELECT_STATEMENT);
-        clientDetailsService.setFindClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT);
+        clientDetailsService.setSelectClientDetailsSql(DEFAULT_SELECT_STATEMENT);
+        clientDetailsService.setFindClientDetailsSql(DEFAULT_FIND_STATEMENT);
         clientDetailsService.setPasswordEncoder(passwordEncoder);
         clients.withClientDetails(clientDetailsService);
     }
-
-
-//    @Override
-//    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-//        String finalSecret = "{bcrypt}" + new BCryptPasswordEncoder().encode("123456");
-//
-//        // 配置两个客户端，一个用于password认证一个用于client认证
-//        clients.inMemory().withClient("client_1")
-////                .resourceIds(Utils.RESOURCEIDS.ORDER)
-//                .authorizedGrantTypes("client_credentials", "refresh_token")
-//                .scopes("select")
-//                .authorities("oauth2")
-//                .secret(finalSecret)
-//                .and().withClient("client_2")
-////                .resourceIds(Utils.RESOURCEIDS.ORDER)
-//                .authorizedGrantTypes("password", "refresh_token")
-//                .scopes("server")
-//                .authorities("oauth2")
-//                .secret(finalSecret);
-//    }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {

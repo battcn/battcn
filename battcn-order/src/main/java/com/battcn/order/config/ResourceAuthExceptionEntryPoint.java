@@ -1,4 +1,4 @@
-package com.battcn.auth.config;
+package com.battcn.order.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;

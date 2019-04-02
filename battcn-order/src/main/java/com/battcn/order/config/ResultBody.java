@@ -1,4 +1,4 @@
-package com.battcn.auth.config;
+package com.battcn.order.config;
 
 import lombok.*;
 import lombok.experimental.Accessors;

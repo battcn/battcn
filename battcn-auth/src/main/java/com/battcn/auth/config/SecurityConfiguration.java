@@ -1,5 +1,6 @@
 package com.battcn.auth.config;
 
+import com.battcn.auth.entity.AuthInfo;
 import com.battcn.auth.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,14 +10,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 /**
  * @author Levin
@@ -48,17 +46,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //替换成自己验证规则
-        //auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
-        //auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
         auth.userDetailsService(userDetailsService()).passwordEncoder(passwordEncoder());
     }
 
     @Bean
     public TokenStore tokenStore(RedisConnectionFactory redisConnectionFactory) {
-        return new RedisTokenStore(redisConnectionFactory);
+        RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
+//        tokenStore.setAuthenticationKeyGenerator(authentication -> {
+//            AuthInfo info = (AuthInfo) authentication.getPrincipal();
+//            return info.getMobile();
+//        });
+        return tokenStore;
     }
 
     @Override
