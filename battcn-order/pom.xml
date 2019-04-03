@@ -11,7 +11,7 @@
     <artifactId>battcn-order</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>battcn-order</name>
-    <description>Battcn Spring Cloud Gateway ....</description>
+    <description>用户订单模块</description>
 
     <properties>
         <java.version>1.8</java.version>

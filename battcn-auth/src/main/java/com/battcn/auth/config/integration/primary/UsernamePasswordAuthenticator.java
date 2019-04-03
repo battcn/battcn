@@ -1,5 +1,7 @@
-package com.battcn.auth.config.integration;
+package com.battcn.auth.config.integration.primary;
 
+import com.battcn.auth.config.integration.AbstractPreparedIntegrationAuthenticator;
+import com.battcn.auth.config.integration.IntegrationAuthentication;
 import com.battcn.auth.entity.AuthInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
