@@ -1,10 +1,10 @@
 package com.battcn.auth.config;
 
-import com.battcn.auth.entity.AuthInfo;
 import com.battcn.auth.service.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,6 +23,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
 
     @Bean
     @Override
@@ -55,12 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public TokenStore tokenStore(RedisConnectionFactory redisConnectionFactory) {
-        RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
-//        tokenStore.setAuthenticationKeyGenerator(authentication -> {
-//            AuthInfo info = (AuthInfo) authentication.getPrincipal();
-//            return info.getMobile();
-//        });
-        return tokenStore;
+        return new RedisTokenStore(redisConnectionFactory);
     }
 
     @Override

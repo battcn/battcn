@@ -17,37 +17,10 @@
 package com.battcn.auth.config;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * @author Levin
+ * @since 2019-04-03
  */
 public interface SecurityConstants {
-    /**
-     * 角色前缀
-     */
-    String ROLE = "ROLE_";
-    /**
-     * 前缀
-     */
-    String PROJECT_PREFIX = "pig_";
-
-    /**
-     * oauth 相关前缀
-     */
-    String OAUTH_PREFIX = "oauth:";
-    /**
-     * 项目的license
-     */
-    String PROJECT_LICENSE = "made by pig";
-
-    /**
-     * 内部
-     */
-    String FROM_IN = "Y";
-
-    /**
-     * 标志
-     */
-    String FROM = "from";
 
     /**
      * 手机号登录URL
@@ -64,15 +37,12 @@ public interface SecurityConstants {
      */
     String REFRESH_TOKEN = "refresh_token";
 
-    /**
-     * oauth 客户端信息
-     */
-    String CLIENT_DETAILS_KEY = PROJECT_PREFIX + OAUTH_PREFIX + "client:details";
 
     /**
      * {bcrypt} 加密的特征码
      */
     String BCRYPT = "{bcrypt}";
+
     /**
      * 为什么要设置自己的呢？主要目的是为了存储的时候可以不用存 {noop} 這个东西，因为 oauth2 解析 client 的时候会去解析是否存在 {} 花括号
      */
@@ -95,10 +65,4 @@ public interface SecurityConstants {
      * 按条件client_id 查询
      */
     String DEFAULT_SELECT_STATEMENT = BASE_FIND_STATEMENT + " where client_id = ?";
-
-
-    /***
-     * 资源服务器默认bean名称
-     */
-    String RESOURCE_SERVER_CONFIGURER = "resourceServerConfigurerAdapter";
 }

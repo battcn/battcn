@@ -3,14 +3,13 @@ package com.battcn.auth.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.battcn.auth.entity.AuthInfo;
-import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 
 /**
@@ -23,14 +22,15 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-
-    @GetMapping
-    public List<String> listUser() {
-        return Lists.newArrayList("test1", "test2");
-    }
-
+    /**
+     * 只有内部客户端才能有权限调用该接口
+     *
+     * @return 用户信息
+     */
+    @PreAuthorize("hasAuthority('inner:client')")
     @GetMapping("/info")
-    public JSONObject info(OAuth2Authentication authentication) {
+    public JSONObject info() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         AuthInfo authInfo = (AuthInfo) authentication.getPrincipal();
         JSONObject result = new JSONObject();
         result.put("userId", authInfo.getUserId());

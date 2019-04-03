@@ -9,6 +9,7 @@ import java.util.Collection;
 
 /**
  * @author Levin
+ * @since 2019-04-03
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
