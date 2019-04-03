@@ -4,10 +4,12 @@ import org.springframework.context.ApplicationEvent;
 
 /**
  * 短信认证之前的事件，可以监听事件进行用户手机号自动注册
- * @author LIQIU
- * @date 2018-3-31
+ *
+ * @author Levin
+ * @since 2019-04-03
  **/
 public class SmsAuthenticateBeforeEvent extends ApplicationEvent {
+
     /**
      * Create a new ApplicationEvent.
      *
@@ -16,4 +18,5 @@ public class SmsAuthenticateBeforeEvent extends ApplicationEvent {
     public SmsAuthenticateBeforeEvent(Object source) {
         super(source);
     }
+
 }

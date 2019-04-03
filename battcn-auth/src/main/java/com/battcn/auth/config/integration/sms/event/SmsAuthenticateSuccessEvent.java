@@ -4,10 +4,12 @@ import org.springframework.context.ApplicationEvent;
 
 /**
  * 短信认证成功事件
- * @author LIQIU
- * @date 2018-3-31
+ *
+ * @author Levin
+ * @since 2019-04-03
  **/
 public class SmsAuthenticateSuccessEvent extends ApplicationEvent {
+
     /**
      * Create a new ApplicationEvent.
      *
@@ -16,4 +18,5 @@ public class SmsAuthenticateSuccessEvent extends ApplicationEvent {
     public SmsAuthenticateSuccessEvent(Object source) {
         super(source);
     }
+
 }
