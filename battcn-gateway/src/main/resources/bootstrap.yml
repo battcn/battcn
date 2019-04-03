@@ -6,14 +6,14 @@ spring:
       config:
         server-addr: localhost:8848
         ext-config:
-          - refresh: true
-            data-id: app.properties
-            group: multi-data-ids
+#          - refresh: true
+#            data-id: app.properties
+#            group: multi-data-ids
       discovery:
         server-addr: localhost:8848
     gateway:
       routes:
-        - id: uaa
+        - id: auth
           uri: lb://battcn-auth
           predicates:
             - Path=/**
