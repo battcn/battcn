@@ -89,11 +89,11 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 return accessToken;
             }
             final Map<String, Object> additionalInfo = new HashMap<>(8);
-            AuthInfo ksudiUser = (AuthInfo) authentication.getUserAuthentication().getPrincipal();
+            AuthInfo authInfo = (AuthInfo) authentication.getUserAuthentication().getPrincipal();
             additionalInfo.put("code", 200);
-            additionalInfo.put("user_id", ksudiUser.getUserId());
-            additionalInfo.put("username", ksudiUser.getUsername());
-            additionalInfo.put("tenant_id", ksudiUser.getTenantId());
+            additionalInfo.put("user_id", authInfo.getUserId());
+            additionalInfo.put("username", authInfo.getUsername());
+            additionalInfo.put("tenant_id", authInfo.getTenantId());
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
             return accessToken;
         };

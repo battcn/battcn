@@ -16,6 +16,8 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <!-- 打包跳过单元测试 -->
+        <skipTests>true</skipTests>
         <nacos-config-spring-boot.version>0.2.1</nacos-config-spring-boot.version>
         <nacos-config-spring-cloud.version>0.2.1.RELEASE</nacos-config-spring-cloud.version>
     </properties>

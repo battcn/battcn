@@ -18,6 +18,7 @@ spring:
     type: redis
     redis:
       cache-null-values: true
+      time-to-live: 7200s
 logging:
   level:
     com.battcn: debug
