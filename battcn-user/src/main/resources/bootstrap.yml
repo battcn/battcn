@@ -11,7 +11,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
 server:
-  port: 8020
+  port: 8030
 logging:
   level:
     com.battcn: debug

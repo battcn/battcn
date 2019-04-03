@@ -2,14 +2,21 @@
 spring:
   application:
     name: battcn-order
+  redis:
+    host: 106.14.253.83
+    database: 2
+    password: redis
+    port: 6005
   cloud:
     nacos:
       config:
-        server-addr: 192.168.1.13:8848
+        server-addr: localhost:8848
       discovery:
-        server-addr: 192.168.1.13:8848
+        server-addr: localhost:8848
   main:
     allow-bean-definition-overriding: true
+  cache:
+    type: redis
 server:
   port: 8020
 logging:
@@ -19,15 +26,16 @@ logging:
 security:
   oauth2:
     client:
-      client-id: client_2
-      client-secret: 123456
+      client-id: test
+      client-secret: test
       scope: server
       grant-type: client_credentials,password
       access-token-uri: http://battcn-auth/oauth/token
     resource:
       loadBalanced: true
-      token-info-uri: http://battcn-auth/oauth/check_token
+      #token-info-uri: http://battcn-auth/oauth/check_token
       user-info-uri: http://battcn-auth/users/info
+      prefer-token-info: false
 feign:
   hystrix:
     enabled: true
