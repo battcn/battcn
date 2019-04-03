@@ -13,9 +13,20 @@
     <description>battcn 框架模块</description>
     <packaging>pom</packaging>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <!-- 打包跳过单元测试 -->
+        <skipTests>true</skipTests>
+        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+    </properties>
+
 
     <modules>
-        <module>oauth2-spring-cloud-starter</module>
+        <module>oauth2-framework-starter</module>
+        <module>swagger-framework-starter</module>
     </modules>
 
 </project>
