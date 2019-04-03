@@ -73,14 +73,4 @@ public class AuthInfo implements UserDetails, CredentialsContainer, java.io.Seri
     public boolean isEnabled() {
         return this.enabled;
     }
-
-//    public AuthInfo(Long userId, String nickName, String qqOpenId, String wxOpenId, String phone, Long tenantId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-//        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-//        this.userId = userId;
-//        this.nickName = nickName;
-//        this.qqOpenId = qqOpenId;
-//        this.wxOpenId = wxOpenId;
-//        this.phone = phone;
-//        this.tenantId = tenantId;
-//    }
 }
