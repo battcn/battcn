@@ -23,7 +23,7 @@ import static com.battcn.auth.config.SecurityConstants.BCRYPT;
  * 默认登录处理
  *
  * @author Levin
- * @date 2018-3-31
+ * @since 2019-04-03
  **/
 @Component
 @Primary

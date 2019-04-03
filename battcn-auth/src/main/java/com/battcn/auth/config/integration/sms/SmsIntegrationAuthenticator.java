@@ -19,8 +19,8 @@ import java.util.Collection;
 /**
  * 短信验证码集成认证
  *
- * @author LIQIU
- * @date 2018-3-31
+ * @author Levin
+ * @since 2019-04-03
  **/
 @Slf4j
 @Component
