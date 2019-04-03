@@ -1,9 +1,11 @@
-package com.battcn.order.config;
+package com.battcn.framework.security.client;
 
+import com.battcn.framework.security.client.annotation.ClientEnableResourceServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
 
 /**
@@ -15,10 +17,11 @@ import org.springframework.core.type.AnnotationMetadata;
 @Slf4j
 public class SecurityBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
 
+    private static final String PREFER_TOKEN_INFO = "preferTokenInfo";
     /***
      * 资源服务器默认bean名称
      */
-    public static final String RESOURCE_SERVER_CONFIGURER = "resourceServerConfigurerAdapter";
+    private static final String RESOURCE_SERVER_CONFIGURER = "resourceServerConfigurerAdapter";
 
     /**
      * 根据注解值动态注入资源服务器的相关属性
@@ -32,8 +35,17 @@ public class SecurityBeanDefinitionRegistrar implements ImportBeanDefinitionRegi
             log.warn("本地存在资源服务器配置，覆盖默认配置:" + RESOURCE_SERVER_CONFIGURER);
             return;
         }
+        AnnotationAttributes annotationAttributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(ClientEnableResourceServer.class.getName()));
+        if (annotationAttributes == null) {
+            return;
+        }
         GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
-        beanDefinition.setBeanClass(LoadBalancedResourceServerConfigurerAdapter.class);
+        final boolean preferTokenInfo = annotationAttributes.getBoolean(PREFER_TOKEN_INFO);
+        if (preferTokenInfo) {
+            beanDefinition.setBeanClass(LoadBalancedTokenInfoResourceServerConfigurerAdapter.class);
+        } else {
+            beanDefinition.setBeanClass(LoadBalancedResourceServerConfigurerAdapter.class);
+        }
         registry.registerBeanDefinition(RESOURCE_SERVER_CONFIGURER, beanDefinition);
 
     }
