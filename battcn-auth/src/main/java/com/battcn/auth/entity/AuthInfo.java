@@ -1,34 +1,86 @@
 package com.battcn.auth.entity;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * @author Levin
  * @since 2019-04-03
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class AuthInfo extends User implements java.io.Serializable {
+public class AuthInfo implements UserDetails, CredentialsContainer, java.io.Serializable {
 
     private static final long serialVersionUID = 666236878598344789L;
 
     private Long userId;
     private String phone;
-    private String openId;
+    private String qqOpenId;
+    private String wxOpenId;
     private Long tenantId;
     private String nickName;
 
-    public AuthInfo(Long userId, String nickName, String openId, String phone, Long tenantId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
-        this.userId = userId;
-        this.nickName = nickName;
-        this.openId = openId;
-        this.phone = phone;
-        this.tenantId = tenantId;
+    private String username;
+    private String password;
+    private Boolean enabled;
+//    private Boolean accountNonLocked;
+//    private Boolean credentialsNonExpired;
+//    private Boolean accountNonExpired;
+    private Collection<String> resources = new ArrayList<>();
+    private Collection<String> roles = new ArrayList<>();
+    private Collection<GrantedAuthority> grantedAuthorities;
+
+    @Override
+    public void eraseCredentials() {
+        this.password = null;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.grantedAuthorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.enabled;
+    }
+
+//    public AuthInfo(Long userId, String nickName, String qqOpenId, String wxOpenId, String phone, Long tenantId, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+//        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+//        this.userId = userId;
+//        this.nickName = nickName;
+//        this.qqOpenId = qqOpenId;
+//        this.wxOpenId = wxOpenId;
+//        this.phone = phone;
+//        this.tenantId = tenantId;
+//    }
 }

@@ -1,5 +1,6 @@
 package com.battcn.auth.service;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
@@ -20,6 +21,7 @@ public class ClientDetailsServiceImpl extends JdbcClientDetailsService {
 
 
     @Override
+    @Cacheable(value = "clients", key = "#clientId", unless = "#result == null")
     public ClientDetails loadClientByClientId(String clientId) throws InvalidClientException {
         return super.loadClientByClientId(clientId);
     }

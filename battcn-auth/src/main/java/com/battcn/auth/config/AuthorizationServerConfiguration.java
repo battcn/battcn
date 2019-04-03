@@ -1,5 +1,6 @@
 package com.battcn.auth.config;
 
+import com.battcn.auth.config.integration.IntegrationAuthenticationFilter;
 import com.battcn.auth.entity.AuthInfo;
 import com.battcn.auth.service.ClientDetailsServiceImpl;
 import lombok.AllArgsConstructor;
@@ -23,8 +24,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.battcn.auth.config.SecurityConstants.DEFAULT_FIND_STATEMENT;
-import static com.battcn.auth.config.SecurityConstants.DEFAULT_SELECT_STATEMENT;
+import static com.battcn.auth.config.SecurityConstants.*;
 
 /**
  * 安全认证管理器
@@ -42,7 +42,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     private final DataSource dataSource;
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
-
+    private final IntegrationAuthenticationFilter integrationAuthenticationFilter;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -66,15 +66,12 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public void configure(AuthorizationServerSecurityConfigurer security) {
         // 允许表单认证
         security.allowFormAuthenticationForClients()
-//                .tokenKeyAccess("permitAll()")
+                .tokenKeyAccess("permitAll()")
                 .checkTokenAccess("isAuthenticated()")
+                .addTokenEndpointAuthenticationFilter(integrationAuthenticationFilter)
         ;
     }
 
-    /**
-     * 客户端模式
-     */
-    private static final String CLIENT_CREDENTIALS = "client_credentials";
 
     /**
      * token增强，客户端模式不增强。
@@ -88,12 +85,15 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                     .equals(authentication.getOAuth2Request().getGrantType())) {
                 return accessToken;
             }
-            final Map<String, Object> additionalInfo = new HashMap<>(8);
+            final Map<String, Object> additionalInfo = new HashMap<>(6);
             AuthInfo authInfo = (AuthInfo) authentication.getUserAuthentication().getPrincipal();
             additionalInfo.put("code", 200);
             additionalInfo.put("user_id", authInfo.getUserId());
             additionalInfo.put("username", authInfo.getUsername());
             additionalInfo.put("tenant_id", authInfo.getTenantId());
+            additionalInfo.put("wx_open_id", authInfo.getQqOpenId());
+
+            additionalInfo.put("qq_open_id", authInfo.getWxOpenId());
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
             return accessToken;
         };

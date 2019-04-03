@@ -34,8 +34,9 @@ public class UserController {
         AuthInfo authInfo = (AuthInfo) authentication.getPrincipal();
         JSONObject result = new JSONObject();
         result.put("userId", authInfo.getUserId());
-        result.put("mobile", authInfo.getMobile());
-        result.put("openId", authInfo.getOpenId());
+        result.put("phone", authInfo.getPhone());
+        result.put("wxOpenId", authInfo.getWxOpenId());
+        result.put("qqOpenId", authInfo.getQqOpenId());
         result.put("tenantId", authInfo.getTenantId());
         result.put("nickName", authInfo.getNickName());
         result.put("authorities", authInfo.getAuthorities());

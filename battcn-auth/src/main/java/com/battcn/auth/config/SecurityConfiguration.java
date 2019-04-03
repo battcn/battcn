@@ -23,10 +23,9 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-
-    @Bean
     @Override
-    protected UserDetailsService userDetailsService() {
+    @Bean
+    public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
     }
 
