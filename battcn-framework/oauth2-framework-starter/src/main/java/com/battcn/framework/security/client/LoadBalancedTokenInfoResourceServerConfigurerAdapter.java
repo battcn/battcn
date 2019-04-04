@@ -1,6 +1,8 @@
 package com.battcn.framework.security.client;
 
+import com.battcn.framework.security.client.properties.SecurityIgnoreProperties;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
@@ -20,11 +22,13 @@ import org.springframework.web.client.RestTemplate;
  */
 @AllArgsConstructor
 @Import({ResourceAuthExceptionEntryPoint.class, LoadBalancedRestTemplateAutoConfigurer.class})
+@EnableConfigurationProperties(SecurityIgnoreProperties.class)
 public class LoadBalancedTokenInfoResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {
 
     private final RestTemplate lbRestTemplate;
     private final RemoteTokenServices remoteTokenServices;
     private final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
+    private final SecurityIgnoreProperties securityIgnoreProperties;
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
@@ -43,6 +47,8 @@ public class LoadBalancedTokenInfoResourceServerConfigurerAdapter extends Resour
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>
                 .ExpressionInterceptUrlRegistry registry = http
                 .authorizeRequests();
+        securityIgnoreProperties.getIgnoreUrls()
+                .forEach(url -> registry.antMatchers(url).permitAll());
         registry.anyRequest().authenticated()
                 .and().csrf().disable();
 
