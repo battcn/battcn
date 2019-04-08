@@ -1,7 +1,6 @@
 package com.battcn.auth.config;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -50,13 +49,6 @@ public class SwaggerProvider implements SwaggerResourcesProvider {
                         predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0").replace("/**", API_URI)))));
         List<SwaggerResource> swaggerResources = resources.stream().sorted(Comparator.comparing(SwaggerResource::getName))
                 .collect(Collectors.toList());
-//        List<SwaggerResource> swaggerResources = Lists.newArrayList();
-//        SwaggerResource swaggerResource = new SwaggerResource();
-//        swaggerResource.setName("battcn-order");
-//        swaggerResource.setLocation("/order/v2/api-docs");
-//        swaggerResource.setUrl("/v2/api-docs");
-//        swaggerResource.setSwaggerVersion("2.0");
-//        swaggerResources.add(swaggerResource);
         log.debug("[SwaggerResource] - [{}]", JSON.toJSONString(swaggerResources));
         return swaggerResources;
     }
