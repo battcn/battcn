@@ -41,7 +41,7 @@ spring:
         - id: battcn-auth
           uri: lb://battcn-auth
           predicates:
-            - Path=/battcn-auth/**
+            - Path=/auth/**
           filters:
             - StripPrefix=1
 

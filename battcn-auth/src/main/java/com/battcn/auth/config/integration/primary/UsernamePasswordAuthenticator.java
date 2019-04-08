@@ -30,7 +30,9 @@ import static com.battcn.auth.config.SecurityConstants.BCRYPT;
 @Slf4j
 public class UsernamePasswordAuthenticator extends AbstractPreparedIntegrationAuthenticator {
 
+    private static final String PHONE_REGEX = "^[1][0-9]{10}$";
     private static final String FIND_USERNAME = "SELECT * FROM sys_user WHERE username = ?";
+    private static final String FIND_PHONE = "SELECT * FROM sys_user WHERE phone = ?";
     @Resource
     private JdbcTemplate jdbcTemplate;
 
@@ -72,7 +74,12 @@ public class UsernamePasswordAuthenticator extends AbstractPreparedIntegrationAu
     @Override
     public AuthInfo authenticate(IntegrationAuthentication integrationAuthentication) {
         String username = integrationAuthentication.getUsername();
-        return jdbcTemplate.queryForObject(FIND_USERNAME, new Object[]{username}, new UserDetailRowMapper());
+        if (StringUtils.isEmpty(username)) {
+            // 抛出异常
+        }
+        // 支持手机号和传统账号两种登陆方式
+        String sql = username.matches(PHONE_REGEX) ? FIND_PHONE : FIND_USERNAME;
+        return jdbcTemplate.queryForObject(sql, new Object[]{username}, new UserDetailRowMapper());
     }
 
     @Override
@@ -85,4 +92,6 @@ public class UsernamePasswordAuthenticator extends AbstractPreparedIntegrationAu
         String authType = integrationAuthentication.getAuthType();
         return StringUtils.isEmpty(authType);
     }
+
+
 }

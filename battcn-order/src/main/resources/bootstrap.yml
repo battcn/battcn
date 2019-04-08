@@ -58,7 +58,7 @@ swagger:
       - scope: server
         description: server all
     token-url-list:
-      - http://localhost:9000/battcn-auth/oauth/token
+      - http://localhost:9000/auth/oauth/token
 
 
 feign:
