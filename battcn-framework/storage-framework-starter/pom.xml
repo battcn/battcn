@@ -17,11 +17,18 @@
         <minio.version>3.0.12</minio.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
+        <qiniu.cloud.version>[7.2.0, 7.2.99]</qiniu.cloud.version>
         <!-- 打包跳过单元测试 -->
         <skipTests>true</skipTests>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>${qiniu.cloud.version}</version>
+            <optional>true</optional>
+        </dependency>
         <dependency>
             <groupId>io.minio</groupId>
             <artifactId>minio</artifactId>
