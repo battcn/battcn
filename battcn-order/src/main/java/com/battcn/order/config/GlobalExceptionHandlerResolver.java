@@ -1,4 +1,4 @@
-package com.battcn.order.controller;
+package com.battcn.order.config;
 
 import com.battcn.framework.security.result.ErrorResult;
 import lombok.extern.slf4j.Slf4j;

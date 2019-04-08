@@ -1,6 +1,11 @@
 server:
   port: 9000
 spring:
+  redis:
+    host: 106.14.253.83
+    database: 3
+    password: redis
+    port: 6005
   application:
     name: battcn-gateway
   cloud:
@@ -35,6 +40,14 @@ spring:
             - Path=/order/**
           # 配置 StripPrefix 清洗
           filters:
+            # - RequestRateLimiter=10, 20, #{@ipKeyResolver} # 简写方案
+            # filter 名称必须是 RequestRateLimiter
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 100   # 允许用户每秒处理多少个请求
+                redis-rate-limiter.burstCapacity: 1000   # 令牌桶的容量，允许在一秒钟内完成的最大请求数
+                # 使用 IP 限流策略（使用 SpEL 按名称引用 bean）
+                key-resolver: "#{@ipKeyResolver}"
             # （配置1）http://localhost:9000/order/v2/api-docs 会被清洗成 http://localhost:9000/v2/api-docs
             # （配置2）http://localhost:9000/order/test/v2/api-docs 会被清洗成 http://localhost:9000/v2/api-docs
             - StripPrefix=1
@@ -44,8 +57,6 @@ spring:
             - Path=/auth/**
           filters:
             - StripPrefix=1
-
-
 # 不校验验证码终端
 ignore:
   clients:
@@ -60,3 +71,4 @@ logging:
   level:
     com.battcn: debug
     org.springframework.security: DEBUG
+    org.springframework.cloud: DEBUG

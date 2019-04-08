@@ -35,6 +35,7 @@ security:
         - /actuator/**  #匿名访问
         - /v2/api-docs #匿名访问
         - /favicon.ico
+        - /test/limiter
     resource:
       loadBalanced: true
       #token-info-uri: http://battcn-auth/oauth/check_token
