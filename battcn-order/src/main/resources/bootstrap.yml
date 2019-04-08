@@ -1,7 +1,5 @@
 server:
   port: 8020
-  servlet:
-    context-path: /order
 spring:
   application:
     name: battcn-order
@@ -60,7 +58,7 @@ swagger:
       - scope: server
         description: server all
     token-url-list:
-      - http://localhost:9000/auth/oauth/token
+      - http://localhost:9000/battcn-auth/oauth/token
 
 
 feign:

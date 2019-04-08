@@ -1,7 +1,5 @@
 server:
   port: 8010
-  servlet:
-    context-path: /auth
 spring:
   application:
     name: battcn-auth

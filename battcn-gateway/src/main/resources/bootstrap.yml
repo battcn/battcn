@@ -11,15 +11,40 @@ spring:
       discovery:
         server-addr: localhost:8848
     gateway:
+      discovery:
+        locator:
+          # 配置成 true 那么 Path 就应该是 battcn-order or battcn-auth 即是设置可以路由到其他服务
+          # 如果觉得 install-id 比较长看起来不舒服，可以用 StripPrefix 清洗的方式而不是 locator.enabled = true
+          enabled: false
+      # 跨域
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedHeaders: "*"
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+                POST
+                DELETE
+                PUT
+                OPTION
       routes:
         - id: battcn-order
           uri: lb://battcn-order
           predicates:
             - Path=/order/**
+          # 配置 StripPrefix 清洗
+          filters:
+            # （配置1）http://localhost:9000/order/v2/api-docs 会被清洗成 http://localhost:9000/v2/api-docs
+            # （配置2）http://localhost:9000/order/test/v2/api-docs 会被清洗成 http://localhost:9000/v2/api-docs
+            - StripPrefix=1
         - id: battcn-auth
           uri: lb://battcn-auth
           predicates:
-            - Path=/auth/**
+            - Path=/battcn-auth/**
+          filters:
+            - StripPrefix=1
+
 
 # 不校验验证码终端
 ignore:
