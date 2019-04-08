@@ -1,0 +1,5 @@
+- `battcn-auth`       进行 `oauth2` 认证，支持用户名、手机号、短信登陆等多种方式
+- `battcn-user`       用户管理模块
+- `battcn-order`      订单管理模块（将支持`https://github.com/apache/incubator-shardingsphere`）
+- `battcn-gateway`    网关，带限流
+- `battcn-framework`  项目的框架包，缓存，文件存储，`OAuth2` 等多种集合包
