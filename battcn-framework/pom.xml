@@ -27,6 +27,7 @@
     <modules>
         <module>oauth2-framework-starter</module>
         <module>swagger-framework-starter</module>
+        <module>storage-framework-starter</module>
     </modules>
 
 </project>
