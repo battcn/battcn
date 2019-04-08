@@ -1,14 +1,22 @@
 package com.battcn.framework.security.client;
 
+import com.battcn.framework.security.client.annotation.IgnoreAuthorize;
 import com.battcn.framework.security.client.properties.SecurityIgnoreProperties;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 带负载均衡的请求
@@ -16,6 +24,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
  * @author Levin
  * @since 2019-03-30
  */
+@Slf4j
 @AllArgsConstructor
 @Import({ResourceAuthExceptionEntryPoint.class, LoadBalancedRestTemplateAutoConfigurer.class})
 @EnableConfigurationProperties(SecurityIgnoreProperties.class)
@@ -24,6 +33,7 @@ public class LoadBalancedResourceServerConfigurerAdapter extends ResourceServerC
 
     private final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
     private final SecurityIgnoreProperties securityIgnoreProperties;
+    private final RequestMappingHandlerMapping requestMappingHandlerMapping;
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
@@ -37,8 +47,21 @@ public class LoadBalancedResourceServerConfigurerAdapter extends ResourceServerC
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>
                 .ExpressionInterceptUrlRegistry registry = http
                 .authorizeRequests();
-        securityIgnoreProperties.getIgnoreUrls()
-                .forEach(url -> registry.antMatchers(url).permitAll());
+        Map<RequestMappingInfo, HandlerMethod> handlerMethods = requestMappingHandlerMapping.getHandlerMethods();
+        for (Map.Entry<RequestMappingInfo, HandlerMethod> handlerMethodEntry : handlerMethods.entrySet()) {
+            RequestMappingInfo key = handlerMethodEntry.getKey();
+            HandlerMethod value = handlerMethodEntry.getValue();
+            IgnoreAuthorize annotation = value.getMethodAnnotation(IgnoreAuthorize.class);
+            log.info("[key] - [{}] - [value] - [{}]", key, value);
+            if (annotation != null) {
+                key.getPatternsCondition().getPatterns().forEach(url -> registry.antMatchers(url).permitAll());
+            }
+        }
+        List<String> ignoreUrls = securityIgnoreProperties.getIgnoreUrls();
+        if (!CollectionUtils.isEmpty(ignoreUrls)) {
+            String[] arr = ignoreUrls.toArray(new String[0]);
+            registry.antMatchers(arr).permitAll();
+        }
         registry.anyRequest().authenticated()
                 .and().csrf().disable();
 

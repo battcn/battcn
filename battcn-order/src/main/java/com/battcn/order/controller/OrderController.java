@@ -1,5 +1,6 @@
 package com.battcn.order.controller;
 
+import com.battcn.framework.security.client.annotation.IgnoreAuthorize;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class OrderController {
 
     //private final TokenStore tokenStore;
 
-    public static Authentication getCurrentUserAuthentication(){
+    public static Authentication getCurrentUserAuthentication() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
 
@@ -37,6 +38,7 @@ public class OrderController {
     public List<String> query() {
         return Lists.newArrayList("order1", "order2");
     }
+
     @GetMapping("/test")
     public Object test() {
         Authentication authentication = getCurrentUserAuthentication();
@@ -48,6 +50,12 @@ public class OrderController {
         return authentication.getPrincipal();
     }
 
+
+    @IgnoreAuthorize
+    @GetMapping("/test1")
+    public String test1() {
+        return "success";
+    }
 
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/info")

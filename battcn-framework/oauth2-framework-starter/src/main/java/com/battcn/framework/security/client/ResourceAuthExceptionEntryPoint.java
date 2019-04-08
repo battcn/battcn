@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -41,6 +42,12 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
                 InvalidTokenException invalidTokenException = (InvalidTokenException) authException.getCause();
                 String oAuth2ErrorCode = invalidTokenException.getOAuth2ErrorCode();
                 int httpErrorCode = invalidTokenException.getHttpErrorCode();
+                result.setCode(httpErrorCode);
+                result.setMessage(oAuth2ErrorCode);
+            } else if (authException instanceof InsufficientAuthenticationException) {
+                InsufficientAuthenticationException insufficientAuthenticationException = (InsufficientAuthenticationException) authException;
+                String oAuth2ErrorCode = insufficientAuthenticationException.getLocalizedMessage();
+                int httpErrorCode = HttpStatus.UNAUTHORIZED.value();
                 result.setCode(httpErrorCode);
                 result.setMessage(oAuth2ErrorCode);
             }
