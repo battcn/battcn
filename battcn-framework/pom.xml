@@ -28,6 +28,7 @@
         <module>oauth2-framework-starter</module>
         <module>swagger-framework-starter</module>
         <module>storage-framework-starter</module>
+        <module>mybatis-framework-starter</module>
     </modules>
 
 </project>
