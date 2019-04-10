@@ -1,16 +1,16 @@
 package com.battcn.user;
 
+import com.battcn.framework.security.client.annotation.ClientEnableResourceServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
 /**
  * @author Levin
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-@EnableResourceServer
+@ClientEnableResourceServer
 public class UserApplication {
 
     public static void main(String[] args) {
