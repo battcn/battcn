@@ -1,0 +1,56 @@
+########## Mybatis 自身配置 ##########
+mybatis:
+  mapper-locations: classpath:com/battcn/order/mapper/*.xml
+  type-aliases-package: com.battcn.order.entity
+  # 驼峰命名规范 如：数据库字段是  order_id 那么 实体字段就要写成 orderId
+  configuration.map-underscore-to-camel-case: true
+
+########## 分页插件 ##########
+pagehelper:
+  params: "count=countSql"
+  helper-dialect: mysql
+  reasonable: false
+  support-methods-arguments: true
+
+########## 通用Mapper ##########
+# 主键自增回写方法,默认值MYSQL,详细说明请看文档
+mapper:
+  identity: MYSQL
+  mappers: com.battcn.framework.mybatis.BaseMapper
+  # 设置 insert 和 update 中，是否判断字符串类型!=''
+  not-empty: true
+  wrap-keyword: "`{0}`"
+  # 枚举按简单类型处理
+  enum-as-simple-type: true
+
+sharding:
+  jdbc:
+    datasource:
+      names: ds0
+      ds0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://localhost:3306/ds_0?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowMultiQueries=true&serverTimezone=UTC
+        username: root
+        password: root
+    config:
+      sharding:
+        binding-tables: t_order,t_item_order
+        tables:
+          t_order:
+            actual-data-nodes: ds0.t_order_$->{0..1}
+            table-strategy:
+              inline:
+                sharding-column: order_id
+                algorithm-expression: t_order_$->{order_id % 2}
+            key-generator-column-name: order_id
+            key-generator:
+              type: SNOWFLAKE
+          t_order_item:
+            actual-data-nodes: ds0.t_order_item_$->{0..1}
+            table-strategy:
+              inline:
+                sharding-column: order_id
+                algorithm-expression: t_order_item_$->{order_id % 2}
+      props:
+        sql.show: true

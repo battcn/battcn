@@ -19,10 +19,11 @@ spring:
   cache:
     type: redis
 
+
 logging:
   level:
-    com.battcn: debug
-    org.springframework.security: DEBUG
+    #com.battcn: debug
+    org.springframework.security: INFO
 security:
   oauth2:
     client:
@@ -34,6 +35,7 @@ security:
       ignore-urls:
         - /actuator/**  #匿名访问
         - /v2/api-docs #匿名访问
+        - /test/order/insert
         - /favicon.ico
     resource:
       loadBalanced: true
