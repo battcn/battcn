@@ -1,7 +1,5 @@
 package com.battcn.framework.mybatis.service;
 
-import com.battcn.framework.mybatis.entity.DataGrid;
-
 import java.util.List;
 
 /**
@@ -46,10 +44,6 @@ public interface BaseService<T> {
 
     int insertUseGeneratedKeys(T record);
 
-
-    ResultDataGrid<List<T>> queryByDataGrid(DataGrid grid);
-
-    ResultDataGrid<List<T>> queryByDataGrid(DataGrid grid, T entity);
 
     List<T> selectByExample(Object var1);
 
