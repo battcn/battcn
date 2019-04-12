@@ -30,3 +30,8 @@ logging:
     com.battcn: debug
     org.springframework.security: DEBUG
     org.springframework.jdbc: debug
+security:
+  oauth2:
+    client:
+      client-secret: test
+      client-id: test

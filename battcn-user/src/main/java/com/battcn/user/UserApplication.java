@@ -4,10 +4,12 @@ import com.battcn.framework.security.client.annotation.ClientEnableResourceServe
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * @author Levin
  */
+@MapperScan("com.battcn.user.mapper")
 @EnableDiscoveryClient
 @SpringBootApplication
 @ClientEnableResourceServer

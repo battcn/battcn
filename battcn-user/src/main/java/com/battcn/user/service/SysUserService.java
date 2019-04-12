@@ -7,4 +7,7 @@ import com.battcn.user.entity.SysUser;
  * @author Levin
  */
 public interface SysUserService extends BaseService<SysUser> {
+
+
+    SysUser loadUserByUsername(String username);
 }

@@ -1,7 +1,13 @@
 
 spring:
   application:
-    name: battcn-order
+    name: battcn-user
+  datasource:
+    url: jdbc:mysql://localhost:3306/battcn?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
   cloud:
     nacos:
       config:
@@ -15,19 +21,44 @@ server:
 logging:
   level:
     com.battcn: debug
-    org.springframework.security: TRACE
+    org.springframework.security: debug
 security:
   oauth2:
     client:
-      client-id: client_2
-      client-secret: 123456
+      client-id: test
+      client-secret: test
       scope: server
       grant-type: client_credentials,password
       access-token-uri: http://battcn-auth/oauth/token
+      ignore-urls:
+        - /actuator/**  #匿名访问
+        - /v2/api-docs #匿名访问
+        - /favicon.ico
     resource:
       loadBalanced: true
       token-info-uri: http://battcn-auth/oauth/check_token
       user-info-uri: http://battcn-auth/users/info
+      prefer-token-info: false
+#swagger公共信息
+swagger:
+  title: battcn-user api
+  description: 订单聚合文档
+  version: 2.0.0
+  license: Powered By battcn
+  licenseUrl: https://blog.battcn.com/
+  terms-of-service-url: https://blog.battcn.com/
+  contact:
+    name: Levin
+    email: 1837307557@qq.com
+  authorization:
+    name: Battcn OAuth
+    auth-regex: ^.*$
+    authorization-scope-list:
+      - scope: server
+        description: server all
+    token-url-list:
+      - http://localhost:9000/auth/oauth/token
+
 feign:
   hystrix:
     enabled: true

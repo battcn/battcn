@@ -62,6 +62,12 @@ spring:
             - Path=/auth/**
           filters:
             - StripPrefix=1
+        - id: battcn-user
+          uri: lb://battcn-user
+          predicates:
+            - Path=/user/**
+          filters:
+            - StripPrefix=1
 # 不校验验证码终端
 ignore:
   clients:

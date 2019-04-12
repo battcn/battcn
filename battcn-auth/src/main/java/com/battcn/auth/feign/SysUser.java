@@ -1,12 +1,10 @@
-package com.battcn.user.entity;
+package com.battcn.auth.feign;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 /**
@@ -17,10 +15,8 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "sys_user")
 public class SysUser implements java.io.Serializable {
 
-    @Id
     private Long userId;
     private String username;
     private String password;
